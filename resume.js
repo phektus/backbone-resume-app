@@ -17,7 +17,7 @@ $(function(){
 		    return {
 			description: '',
 			done:  false,
-			order: Todos.nextOrder()
+			order: Entries.nextOrder()
 		    };
 		},
 		
@@ -51,24 +51,24 @@ $(function(){
 		    return this.without.apply(this, this.done());
 		},
 
-		// We keep the Todos in sequential order, despite being saved by unordered
+		// We keep the Entries in sequential order, despite being saved by unordered
 		// GUID in the database. This generates the next order number for new items.
 		nextOrder: function() {
 		    if (!this.length) return 1;
 		    return this.last().get('order') + 1;
 		},
 
-		// Todos are sorted by their original insertion order.
+		// Entries are sorted by their original insertion order.
 		comparator: function(entry) {
 		    return entry.get('order');
 		}
 
 	    });
 
-	// Create our global collection of **Todos**.
+	// Create our global collection of **Entries**.
 	window.Entries = new EntryList;
 
-	// Todo Item View
+	// Entry Item View
 	// --------------
 
 	// The DOM element for a todo item...
@@ -85,7 +85,7 @@ $(function(){
 		    "click .check"              : "toggleDone",
 		    "dblclick div.entry-text"    : "edit",
 		    "click span.todo-destroy"   : "clear",
-		    "keypress .entry-input .entry-textarea"      : "updateOnEnter"
+		    "keypress .entry-input"      : "updateOnEnter"
 		},
 
 		// The TodoView listens for changes to its model, re-rendering.
@@ -152,70 +152,70 @@ $(function(){
 		
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
-		el: $("#todoapp"),
+		el: $("#resumeapp"),
 
 		// Our template for the line of statistics at the bottom of the app.
 		statsTemplate: _.template($('#stats-template').html()),
 
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
-		    "keypress #new-todo":  "createOnEnter",
-		    "keyup #new-todo":     "showTooltip",
+		    "keypress #new-entry":  "createOnEnter",
+		    "keyup #new-entry":     "showTooltip",
 		    "click .todo-clear a": "clearCompleted"
 		},
 
-		// At initialization we bind to the relevant events on the `Todos`
+		// At initialization we bind to the relevant events on the `Entries`
 		// collection, when items are added or changed. Kick things off by
-		// loading any preexisting todos that might be saved in *localStorage*.
+		// loading any preexisting entries that might be saved in *localStorage*.
 		initialize: function() {
-		    this.input    = this.$("#new-todo");
+		    this.input    = this.$("#new-entry");
 		    
-		    Todos.bind('add',   this.addOne, this);
-		    Todos.bind('reset', this.addAll, this);
-		    Todos.bind('all',   this.render, this);
+		    Entries.bind('add',   this.addOne, this);
+		    Entries.bind('reset', this.addAll, this);
+		    Entries.bind('all',   this.render, this);
 
-		    Todos.fetch();
+		    Entries.fetch();
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
 		// of the app doesn't change.
 		render: function() {
-		    this.$('#todo-stats').html(this.statsTemplate({
-				total:      Todos.length,
-				done:       Todos.done().length,
-				remaining:  Todos.remaining().length
+		    this.$('#entry-stats').html(this.statsTemplate({
+				total:      Entries.length,
+				done:       Entries.done().length,
+				remaining:  Entries.remaining().length
 			    }));
 		},
 
-		// Add a single todo item to the list by creating a view for it, and
+		// Add a single entry item to the list by creating a view for it, and
 		// appending its element to the `<ul>`.
-		addOne: function(todo) {
-		    var view = new TodoView({model: todo});
-		    $("#todo-list").append(view.render().el);
+		addOne: function(entry) {
+		    var view = new EntryView({model: entry});
+		    $("#entry-list").append(view.render().el);
 		},
 
-		// Add all items in the **Todos** collection at once.
+		// Add all items in the **Entries** collection at once.
 		addAll: function() {
-		    Todos.each(this.addOne);
+		    Entries.each(this.addOne);
 		},
 
 		// If you hit return in the main input field, and there is text to save,
-		// create new **Todo** model persisting it to *localStorage*.
+		// create new **Entry** model persisting it to *localStorage*.
 		createOnEnter: function(e) {
 		    var text = this.input.val();
 		    if (!text || e.keyCode != 13) return;
-		    Todos.create({text: text});
+		    Entries.create({text: text});
 		    this.input.val('');
 		},
 
-		// Clear all done todo items, destroying their models.
+		// Clear all done entr items, destroying their models.
 		clearCompleted: function() {
-		    _.each(Todos.done(), function(todo){ todo.destroy(); });
+		    _.each(Entries.done(), function(entry){ entry.destroy(); });
 		    return false;
 		},
 
 		// Lazily show the tooltip that tells you to press `enter` to save
-		// a new todo item, after one second.
+		// a new entry item, after one second.
 		showTooltip: function(e) {
 		    var tooltip = this.$(".ui-tooltip-top");
 		    var val = this.input.val();
