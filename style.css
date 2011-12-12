@@ -107,6 +107,16 @@ html {
       padding: 0;
       border-bottom: 0;
     }
+  #entry-list .entry-description {
+    font-size: 70%;
+    margin-left: 25px;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #EFEFEF;
+    border-radius: 5px;
+      moz-border-radius: 5px;
+      webkit-border-radius: 5px;
+  }
   #entry-list .editing .display,
   #entry-list .edit {
     display: none;

@@ -9,12 +9,13 @@ $(function(){
 	// Entry Model
 	// ----------
 
-	// Our basic **Entry** model has `text`, `description`, `order`, and `done` attributes.
+	// Our basic **Entry** model has `title`, `description`, `order`, and `done` attributes.
 	window.Entry = Backbone.Model.extend({
 
-		// Default attributes for a todo item.
+		// Default attributes for a entry item.
 		defaults: function() {
 		    return {
+			title: '',
 			description: '',
 			done:  false,
 			order: Entries.nextOrder()
@@ -85,7 +86,7 @@ $(function(){
 		    "click .check"              : "toggleDone",
 		    "dblclick div.entry-text"    : "edit",
 		    "click span.todo-destroy"   : "clear",
-		    "keypress .entry-input"      : "updateOnEnter"
+		    "keypress .entry_input"      : "updateOnEnter"
 		},
 
 		// The TodoView listens for changes to its model, re-rendering.
@@ -104,10 +105,12 @@ $(function(){
 		// To avoid XSS (not that it would be harmful in this particular app),
 		// we use `jQuery.text` to set the contents of the todo item.
 		setText: function() {
-		    var text = this.model.get('text');
-		    this.$('.entry-text').text(text);
+		    var title = this.model.get('title');
+		    var description = this.model.get('description')
+		    this.$('.entry-title').text(title);
+		    this.$('.entry-description').text(description);
 		    this.input = this.$('.entry-input');
-		    this.input.bind('blur', _.bind(this.close, this)).val(text);
+		    this.input.bind('blur', _.bind(this.close, this)).val(title);
 		},
 
 		// Toggle the `"done"` state of the model.
@@ -159,8 +162,7 @@ $(function(){
 
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
-		    "keypress #new-entry":  "createOnEnter",
-		    "keyup #new-entry":     "showTooltip",
+		    "click #create-entry button":  "createOnClick",
 		    "click .todo-clear a": "clearCompleted"
 		},
 
@@ -168,7 +170,7 @@ $(function(){
 		// collection, when items are added or changed. Kick things off by
 		// loading any preexisting entries that might be saved in *localStorage*.
 		initialize: function() {
-		    this.input    = this.$("#new-entry");
+		    this.input    = this.$("#create-entry");
 		    
 		    Entries.bind('add',   this.addOne, this);
 		    Entries.bind('reset', this.addAll, this);
@@ -201,11 +203,13 @@ $(function(){
 
 		// If you hit return in the main input field, and there is text to save,
 		// create new **Entry** model persisting it to *localStorage*.
-		createOnEnter: function(e) {
-		    var text = this.input.val();
-		    if (!text || e.keyCode != 13) return;
-		    Entries.create({text: text});
-		    this.input.val('');
+		createOnClick: function(e) {
+		    var title = this.$('#title').val();
+		    var description = this.$('#description').val();
+		    if (!title || !description) return;
+		    Entries.create({title: title, description: description});
+		    this.$('#title').val('');
+		    this.$('#description').val('');
 		},
 
 		// Clear all done entr items, destroying their models.
