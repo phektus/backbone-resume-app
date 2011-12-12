@@ -85,7 +85,7 @@ $(function(){
 		events: {
 		    "click .check"              : "toggleDone",
 		    "dblclick div.entry-text"    : "edit",
-		    "click span.todo-destroy"   : "clear",
+		    "click span.entry-destroy"   : "clear",
 		    "keypress .entry_input"      : "updateOnEnter"
 		},
 
