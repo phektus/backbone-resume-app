@@ -3,83 +3,121 @@
 
   <head>
     <title>Backbone Resume App</title>
-    <link href="style.css" media="all" rel="stylesheet" type="text/css"/>
-    <script src="lib/json2.js"></script>
-    <script src="lib/jquery-1.6.4.js"></script>
-    <script src="lib/underscore-1.2.2.js"></script>
-    <script src="lib/backbone.js"></script>
-    <script src="lib/backbone-localstorage.js"></script>
-    <script src="resume.js"></script>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css"/>
+
+    <script src="js/json2.js"></script>
+    <script src="js/jquery-1.6.4.js"></script>
+    <script src="js/underscore-1.2.2.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="js/backbone-localstorage.js"></script>
+
+    <script src="js/resume.js"></script>
   </head>
 
   <body>
-
-    <!-- Resume App Interface -->
-
-    <div id="resumeapp">
-
-      <div class="title">
-        <h1>My Resume</h1>
-      </div>
-
-      <div class="content">
-
-        <div id="create-entry">
-          <input id="title" placeholder="Title" type="text" />
-          <textarea id="description" placeholder="Description"></textarea>
-	  <button id="add-entry" class="entry_input">Add Entry</button>
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container">
+          <ul class="nav">
+            <li class="active"><a href="#overview">Dashboard</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
         </div>
-
-        <div id="entries">
-          <ul id="entry-list"></ul>
-        </div>
-
-        <div id="entry-stats"></div>
-
       </div>
+    </div>    
 
-    </div>
+    <!-- Main container -->
+    <div class="container">
+      <section id="resumeapp">
+	<div class="page-header">
+	  <h1>Resume Entries</h1>
+	</div>
+	<div class="row">		
+	  <div class="span4">
+	    <div id="create-entry">
+	      <div class="clearfix">
+		<h4>Title</h4>
+		<input id="title" placeholder="Enter a title" type="text" />	    
+	      </div>
+	      <div class="clearfix">
+		<h4>Description</h4>
+		<textarea id="description" placeholder="Talk about your experience"></textarea>
+	      </div>
+	      <div class="clearfix">
+		<h4>Type</h4>
+		<select id="type">
+		  <option name="work">Full-time Work</option>
+		  <option name="education">Formal Education</option>
+		  <option name="personal">Personal Project</option>
+		  <option name="parttime">Part-time Work</option>
+		  <option name="contractual">Contractual Work</option>
+		  <option name="freelance">Freelance Work</option>		   
+		</select>
+	      </div>		
+	      <div class="actions">
+		<button id="add-entry" class="btn large primary">Add</button>
+	      </div>
+	    </div><!-- create entry -->
+	  </div><!-- span4 -->
+	
+	  <div class="span12">	  
+            <div id="entries">
+              <ul id="entry-list"></ul>
+            </div>
+            <div id="entry-stats"></div>
+	  </div>
 
-    <ul id="instructions">
-      <li>Double-click to edit an entry.</li>
-    </ul>
+	</div><!-- row -->
+      </section><!-- resumeapp -->
+    </div><!-- container -->
 
-    <div id="credits">
-      Created by
-      <br />
-      <a href="http://www.arbiesamong.com/">Arbie Samong</a>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+	<p class="pull-right">
+	  <a href="#">Back to Top</a>
+	</p>
+	<p>
+	  Created by <a href="http://www.arbiesamong.com/">Arbie Samong</a>
+	</p>
+      </div>
+    </footer>
 
-    <!-- Templates -->
-
+    
+    <!-- Templates -->	  
     <script type="text/template" id="item-template">
       <div class="entry <%= done ? 'done' : '' %>">
         <div class="display">
-          <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-          <div class="entry-title"></div>
-          <div class="entry-description"></div>
-          <span class="entry-destroy"></span>
+	  <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+	  <div class="entry-title"></div>
+	  <div class="entry-description"></div>
+	  <span class="entry-destroy"></span>
         </div>
         <div class="edit">
-          <input class="entry-input" type="text" value="" />
+	  <input class="entry-input" type="text" value="" />
         </div>
       </div>
     </script>
 
     <script type="text/template" id="stats-template">
       <% if (total) { %>
-        <span class="entry-count">
-          <span class="number"><%= remaining %></span>
-          <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
-        </span>
+      <span class="entry-count">
+        <span class="number"><%= remaining %></span>
+        <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
+      </span>
       <% } %>
       <% if (done) { %>
-        <span class="entry-clear">
-          <a href="#">
-            Clear <span class="number-done"><%= done %></span>
-            completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
-          </a>
-        </span>
+      <span class="entry-clear">
+        <a href="#">
+	  Clear <span class="number-done"><%= done %></span>
+	  completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
+        </a>
+      </span>
       <% } %>
     </script>
 
