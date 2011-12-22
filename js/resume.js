@@ -21,17 +21,12 @@ $(function(){
 			order: Entries.nextOrder()
 		    };
 		},
-		
-		// Toggle the `done` state of this todo item.
-		toggle: function() {
-		    this.save({done: !this.get("done")});
-		}
-		
+
 	    });
 
 	// Entry Collection
 	// ---------------
-	
+
 	// The collection of entries is backed by *localStorage* instead of a remote
 	// server.
 	window.EntryList = Backbone.Collection.extend({
@@ -41,16 +36,6 @@ $(function(){
 
 		// Save all of the entry items under the `"entries"` namespace.
 		localStorage: new Store("entries"),
-
-		// Filter down the list of all entry items that are finished.
-		done: function() {
-		    return this.filter(function(entry){ return entry.get('done'); });
-		},
-
-		// Filter down the list to only todo items that are still not finished.
-		remaining: function() {
-		    return this.without.apply(this, this.done());
-		},
 
 		// We keep the Entries in sequential order, despite being saved by unordered
 		// GUID in the database. This generates the next order number for new items.
@@ -83,15 +68,11 @@ $(function(){
 
 		// The DOM events specific to an item.
 		events: {
-		    "click .check"              : "toggleDone",
-		    "dblclick div.entry-text"    : "edit",
 		    "click span.entry-destroy"   : "clear",
-		    "keypress .entry_input"      : "updateOnEnter"
 		},
 
 		// The TodoView listens for changes to its model, re-rendering.
 		initialize: function() {
-		    this.model.bind('change', this.render, this);
 		    this.model.bind('destroy', this.remove, this);
 		},
 
@@ -109,30 +90,11 @@ $(function(){
 		    var description = this.model.get('description')
 		    this.$('.entry-title').text(title);
 		    this.$('.entry-description').text(description);
-		    this.input = this.$('.entry-input');
-		    this.input.bind('blur', _.bind(this.close, this)).val(title);
 		},
 
 		// Toggle the `"done"` state of the model.
 		toggleDone: function() {
 		    this.model.toggle();
-		},
-
-		// Switch this view into `"editing"` mode, displaying the input field.
-		edit: function() {
-		    $(this.el).addClass("editing");
-		    this.input.focus();
-		},
-
-		// Close the `"editing"` mode, saving changes to the todo.
-		close: function() {
-		    this.model.save({text: this.input.val()});
-		    $(this.el).removeClass("editing");
-		},
-
-		// If you hit `enter`, we're through editing the item.
-		updateOnEnter: function(e) {
-		    if (e.keyCode == 13) this.close();
 		},
 
 		// Remove this view from the DOM.
@@ -144,7 +106,7 @@ $(function(){
 		clear: function() {
 		    this.model.destroy();
 		}
-		
+
 	    });
 
 	// The Application
@@ -152,7 +114,7 @@ $(function(){
 
 	// Our overall **AppView** is the top-level piece of UI.
 	window.AppView = Backbone.View.extend({
-		
+
 		// Instead of generating a new element, bind to the existing skeleton of
 		// the App already present in the HTML.
 		el: $("#resumeapp"),
@@ -171,7 +133,7 @@ $(function(){
 		// loading any preexisting entries that might be saved in *localStorage*.
 		initialize: function() {
 		    this.input    = this.$("#create-entry");
-		    
+
 		    Entries.bind('add',   this.addOne, this);
 		    Entries.bind('reset', this.addAll, this);
 		    Entries.bind('all',   this.render, this);
@@ -184,8 +146,6 @@ $(function(){
 		render: function() {
 		    this.$('#entry-stats').html(this.statsTemplate({
 				total:      Entries.length,
-				done:       Entries.done().length,
-				remaining:  Entries.remaining().length
 			    }));
 		},
 
@@ -229,10 +189,10 @@ $(function(){
 		    var show = function(){ tooltip.show().fadeIn(); };
 		    this.tooltipTimeout = _.delay(show, 1000);
 		}
-		
+
 	    });
 
 	// Finally, we kick things off by creating the **App**.
 	window.App = new AppView;
-	
+
     });
