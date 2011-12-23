@@ -17,13 +17,14 @@ $(function(){
 		    return {
 			title: '',
 			description: '',
+			start_date: '',
 			done:  false,
 			order: Entries.nextOrder()
 		    };
 		},
         
         validate: function(attribs){
-            if(attribs.title === ""){
+            if(attribs.title === "") {
                 return "Please provide a title";
             }
             if(attribs.description === ""){
@@ -104,8 +105,10 @@ $(function(){
 		setText: function() {
 		    var title = this.model.get('title');
 		    var description = this.model.get('description');
+		    var start_date = this.model.get('start_date');
 		    this.$('.entry-title').text(title);
 		    this.$('.entry-description').text(description);
+		    this.$('.entry-start_date').text(start_date);
 		},
 
 		// Toggle the `"done"` state of the model.
@@ -182,9 +185,14 @@ $(function(){
 		createOnClick: function(e) {
 		    var title = this.$('#title').val();
 		    var description = this.$('#description').val();
-		    Entries.create({title: title, description: description});
+		    var start_date = this.$('#start_date').val();
+		    Entries.create({title: title, 
+				description: description,
+				start_date: start_date
+		    });
 		    this.$('#title').val('');
 		    this.$('#description').val('');
+		    this.$('#start_date').val('');
 		},
 
 		// Clear all done entr items, destroying their models.
