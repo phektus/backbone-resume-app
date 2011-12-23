@@ -21,8 +21,24 @@ $(function(){
 			order: Entries.nextOrder()
 		    };
 		},
+        
+        validate: function(attribs){
+            if(attribs.title === ""){
+                return "Please provide a title";
+            }
+            if(attribs.description === ""){
+                return "Please provide a description";
+            }
+        },
+        
+        initialize: function(){
+            console.log('Entry model has been initialized');
+            this.bind("error", function(model, error){
+                alert(error);
+            });
+        }
 
-	    });
+	});
 
 	// Entry Collection
 	// ---------------
@@ -52,7 +68,7 @@ $(function(){
 	    });
 
 	// Create our global collection of **Entries**.
-	window.Entries = new EntryList;
+	window.Entries = new EntryList();
 
 	// Entry Item View
 	// --------------
@@ -68,7 +84,7 @@ $(function(){
 
 		// The DOM events specific to an item.
 		events: {
-		    "click span.entry-destroy"   : "clear",
+		    "click span.entry-destroy"   : "clear"
 		},
 
 		// The TodoView listens for changes to its model, re-rendering.
@@ -87,7 +103,7 @@ $(function(){
 		// we use `jQuery.text` to set the contents of the todo item.
 		setText: function() {
 		    var title = this.model.get('title');
-		    var description = this.model.get('description')
+		    var description = this.model.get('description');
 		    this.$('.entry-title').text(title);
 		    this.$('.entry-description').text(description);
 		},
@@ -107,7 +123,7 @@ $(function(){
 		    this.model.destroy();
 		}
 
-	    });
+	});
 
 	// The Application
 	// ---------------
@@ -145,7 +161,7 @@ $(function(){
 		// of the app doesn't change.
 		render: function() {
 		    this.$('#entry-stats').html(this.statsTemplate({
-				total:      Entries.length,
+				total:      Entries.length
 			    }));
 		},
 
@@ -166,7 +182,6 @@ $(function(){
 		createOnClick: function(e) {
 		    var title = this.$('#title').val();
 		    var description = this.$('#description').val();
-		    if (!title || !description) return;
 		    Entries.create({title: title, description: description});
 		    this.$('#title').val('');
 		    this.$('#description').val('');

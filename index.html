@@ -1,114 +1,117 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <title>Backbone Resume App</title>
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css"/>
+<head>
+<title>Backbone Resume App</title>
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css"/>
 
-    <script src="js/json2.js"></script>
-    <script src="js/jquery-1.6.4.js"></script>
-    <script src="js/underscore-1.2.2.js"></script>
-    <script src="js/backbone.js"></script>
-    <script src="js/backbone-localstorage.js"></script>
+<script src="js/json2.js"></script>
+<script src="js/jquery-1.6.4.js"></script>
+<script src="js/underscore-1.2.2.js"></script>
+<script src="js/backbone.js"></script>
+<script src="js/backbone-localstorage.js"></script>
+<!-- Main js file -->
+<script src="js/resume.js"></script>
+</head>
 
-    <script src="js/resume.js"></script>
-  </head>
-
-  <body>
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="topbar-inner">
-        <div class="container">
-          <ul class="nav">
-            <li class="active"><a href="#overview">Dashboard</a></li>
-            <li><a href="#about">About</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>    
-
-    <!-- Main container -->
+<body>
+<!-- Topbar -->
+<div class="topbar">
+  <div class="topbar-inner">
     <div class="container">
-      <section id="resumeapp">
-	<div class="page-header">
-	  <h1>Resume Entries</h1>
-	</div>
-	<div class="row">		
-	  <div class="span4">
-	    <div id="create-entry">
-	      <div class="clearfix">
-		<h4>Title</h4>
-		<input id="title" placeholder="Enter a title" type="text" />	    
-	      </div>
-	      <div class="clearfix">
-		<h4>Description</h4>
-		<textarea id="description" placeholder="Talk about your experience"></textarea>
-	      </div>
-	      <div class="clearfix">
-		<h4>Type</h4>
-		<select id="type">
-		  <option name="work">Full-time Work</option>
-		  <option name="education">Formal Education</option>
-		  <option name="personal">Personal Project</option>
-		  <option name="parttime">Part-time Work</option>
-		  <option name="contractual">Contractual Work</option>
-		  <option name="freelance">Freelance Work</option>		   
-		</select>
-	      </div>		
-	      <div class="actions">
-		<button id="add-entry" class="btn large primary">Add</button>
-	      </div>
-	    </div><!-- create entry -->
-	  </div><!-- span4 -->
-	
-	  <div class="span12">	  
-            <div id="entries">
-              <ul id="entry-list"></ul>
-            </div>
-            <div id="entry-stats"></div>
-	  </div>
+      <ul class="nav">
+        <li class="active"><a href="#overview">Dashboard</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</div>    
 
-	</div><!-- row -->
-      </section><!-- resumeapp -->
-    </div><!-- container -->
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-	<p class="pull-right">
-	  <a href="#">Back to Top</a>
-	</p>
-	<p>
-	  Created by <a href="http://www.arbiesamong.com/">Arbie Samong</a>
-	</p>
-      </div>
-    </footer>
-
-    
-    <!-- Templates -->	  
-    <script type="text/template" id="item-template">
-      <div class="entry <%= done ? 'done' : '' %>">
-        <div class="display">
-	        <h3><div class="entry-title"></div></h3>
-	        <div class="entry-description"></div>
-	        <span class="entry-destroy"></span>
+<!-- Main container -->
+<div class="container">
+  <section id="resumeapp">
+<div class="page-header">
+  <h1>Resume Entries</h1>
+</div>
+<div class="row">		
+    <div class="span4">
+    <div id="create-entry">
+        <div class="clearfix">
+            <h4>Title</h4>
+            <input id="title" placeholder="Enter a title" type="text" />	    
         </div>
-      </div>
-    </script>
+        <div class="clearfix">
+            <h4>Description</h4>
+            <textarea id="description" 
+                placeholder="Talk about your experience"></textarea>
+        </div>
+        <div class="clearfix">
+            <h4>Type</h4>
+            <select id="type">
+                <option name="work">Full-time Work</option>
+                <option name="education">Formal Education</option>
+                <option name="training">Training</option>
+                <option name="personal">Personal Project</option>
+                <option name="parttime">Part-time Work</option>
+                <option name="contractual">Contractual Work</option>
+                <option name="freelance">Freelance Work</option>		   
+            </select>
+        </div>		
+        <div class="actions">
+            <button id="add-entry" class="btn large primary">Add</button>
+        </div>
+    </div><!-- create entry -->
+</div><!-- span4 -->
 
-    <script type="text/template" id="stats-template">
-      <% if (total) { %>
-      <span class="entry-count">
-        <span class="number"><%= total %></span>
-        You have <span class="word"><%= total %></span> entries.
-      </span>
-      <% } %>
-    </script>
+<div class="span12">	  
+    <div id="entries">
+      <ul id="entry-list"></ul>
+    </div>
+    <div id="entry-stats"></div>
+</div>
 
-  </body>
+</div><!-- row -->
+  </section><!-- resumeapp -->
+</div><!-- container -->
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+<p class="pull-right">
+  <a href="#">Back to Top</a>
+</p>
+<p>
+  Created by <a href="http://www.arbiesamong.com/">Arbie Samong</a>
+</p>
+  </div>
+</footer>
+
+
+<!-- Templates -->	  
+<script type="text/template" id="item-template">
+  <div class="entry <%= done ? 'done' : '' %>">
+    <div class="display">
+        <h3><div class="entry-title"></div></h3>
+        <div class="entry-start_date"></div>
+        <div class="entry-description"></div>
+        <span class="entry-destroy"></span>
+    </div>
+  </div>
+</script>
+
+<script type="text/template" id="stats-template">
+  <% if (total) { %>
+  <span class="entry-count">
+    <span class="number"><%= total %></span>
+    You have <span class="word"><%= total %></span> entries.
+  </span>
+  <% } %>
+</script>
+
+</body>
 
 </html>
