@@ -18,8 +18,9 @@ $(function(){
 			title: '',
 			description: '',
 			start_date: '',
-			done:  false,
-			order: Entries.nextOrder()
+            end_date: '',
+            created: new Date(),
+			done:  false
 		    };
 		},
         
@@ -54,19 +55,16 @@ $(function(){
 		// Save all of the entry items under the `"entries"` namespace.
 		localStorage: new Store("entries"),
 
-		// We keep the Entries in sequential order, despite being saved by unordered
-		// GUID in the database. This generates the next order number for new items.
-		nextOrder: function() {
-		    if (!this.length) return 1;
-		    return this.last().get('order') + 1;
-		},
-
 		// Entries are sorted by their original insertion order.
 		comparator: function(entry) {
-		    return entry.get('order');
+		    var created = entry.get('created');
+            if(created.constructor === Date) {
+                 created = created.getTime() * -1;
+            } 
+            return created
 		}
-
-	    });
+        
+    });
 
 	// Create our global collection of **Entries**.
 	window.Entries = new EntryList();
@@ -106,9 +104,11 @@ $(function(){
 		    var title = this.model.get('title');
 		    var description = this.model.get('description');
 		    var start_date = this.model.get('start_date');
-		    this.$('.entry-title').text(title);
+            var end_date = this.model.get('end_date');
+		    this.$('.entry-title').text(title ? title : 'Unknown');
 		    this.$('.entry-description').text(description);
-		    this.$('.entry-start_date').text(start_date);
+            this.$('.entry-start_date').text(start_date ? start_date : 'Unknown');
+		    this.$('.entry-end_date').text(end_date ? end_date : 'Present');
 		},
 
 		// Toggle the `"done"` state of the model.
@@ -172,7 +172,7 @@ $(function(){
 		// appending its element to the `<ul>`.
 		addOne: function(entry) {
 		    var view = new EntryView({model: entry});
-		    $("#entry-list").append(view.render().el);
+		    $("#entry-list").prepend(view.render().el);
 		},
 
 		// Add all items in the **Entries** collection at once.
@@ -186,13 +186,20 @@ $(function(){
 		    var title = this.$('#title').val();
 		    var description = this.$('#description').val();
 		    var start_date = this.$('#start_date').val();
+            var end_date = this.$('#end_date').val();
+            if (!start_date) {
+                alert('Please indicate a start date');
+                return;
+            }
 		    Entries.create({title: title, 
 				description: description,
-				start_date: start_date
+				start_date: start_date,
+                end_date: end_date
 		    });
 		    this.$('#title').val('');
 		    this.$('#description').val('');
 		    this.$('#start_date').val('');
+            this.$('#end_date').val('');
 		},
 
 		// Clear all done entr items, destroying their models.

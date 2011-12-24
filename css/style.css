@@ -9,3 +9,25 @@
 .ui-datepicker-title {
   margin-bottom: 5px;
 }
+
+#entry-list .entry-title {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+#entry-list .entry-destroy {
+    right: 5px;
+    top: 14px;
+    display: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: url(../images/destroy.png) no-repeat 0 0;
+}
+
+    #entry-list li:hover .entry-destroy {
+      display: block;
+    }
+    #entry-list .entry-destroy:hover {
+      background-position: 0 -20px;
+    }

@@ -22,6 +22,9 @@
     $( "#start_date" ).datepicker({
       changeYear: true
     });
+    $( "#end_date" ).datepicker({
+      changeYear: true
+    });
   });
 </script>
 </head>
@@ -55,6 +58,18 @@
 		   type="text" />	    
         </div>
         <div class="clearfix">
+          <h4>Start date</h4>
+    	  <input id="start_date" 
+    		 placeholder="When did you start"
+    		 type="text" />
+    	</div>
+        <div class="clearfix">
+          <h4>End date</h4>
+          <input id="end_date" 
+    		 placeholder="Leave blank if still ongoing"
+    		 type="text" />
+    	</div>
+        <div class="clearfix">
             <h4>Type</h4>
             <select id="type">
                 <option name="work">Full-time Work</option>
@@ -66,12 +81,6 @@
                 <option name="freelance">Freelance Work</option>		   
             </select>
         </div>
-	<div class="clearfix">
-	  <h4>Start date</h4>
-	  <input id="start_date" 
-		 placeholder="When did you start"
-		 type="text" />
-	</div>
         <div class="clearfix">
             <h4>Description</h4>
             <textarea id="description" 
@@ -106,13 +115,14 @@
   </div>
 </footer>
 
-
 <!-- Templates -->	  
 <script type="text/template" id="item-template">
   <div class="entry <%= done ? 'done' : '' %>">
     <div class="display">
         <h3><div class="entry-title"></div></h3>
-        <div class="entry-start_date"></div>
+        <div>
+            <span class="entry-start_date"></span> to <span class="entry-end_date"></span>
+        </div>
         <div class="entry-description"></div>
         <span class="entry-destroy"></span>
     </div>
