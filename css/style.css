@@ -10,24 +10,33 @@
   margin-bottom: 5px;
 }
 
-#entry-list .entry-title {
-    font-size: 120%;
-    font-weight: bold;
+#entry-list {
+    list-style: none;
 }
-
-#entry-list .entry-destroy {
-    right: 5px;
-    top: 14px;
-    display: none;
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    background: url(../images/destroy.png) no-repeat 0 0;
-}
-
-    #entry-list li:hover .entry-destroy {
-      display: block;
+    #entry-list li {
+        padding: 20px;
+        border-radius: 10px;
+            moz-border-radius: 10px;
+            webkit-border-radius: 10px;
     }
-    #entry-list .entry-destroy:hover {
-      background-position: 0 -20px;
+        #entry-list li:hover {
+            background-color: #EFEFEF;
+        }
+    #entry-list .entry-title {
+        font-size: 120%;
+        font-weight: bold;
     }
+    #entry-list .entry-destroy {
+        position: relative;
+        display: none;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        background: url(../images/destroy.png) no-repeat 0 0;
+    }
+        #entry-list li:hover .entry-destroy {
+          display: block;
+        }
+        #entry-list .entry-destroy:hover {
+          background-position: 0 -20px;
+        }

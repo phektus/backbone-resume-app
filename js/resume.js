@@ -19,8 +19,7 @@ $(function(){
 			description: '',
 			start_date: '',
             end_date: '',
-            created: new Date(),
-			done:  false
+            created: new Date()
 		    };
 		},
         
@@ -110,20 +109,17 @@ $(function(){
             this.$('.entry-start_date').text(start_date ? start_date : 'Unknown');
 		    this.$('.entry-end_date').text(end_date ? end_date : 'Present');
 		},
-
-		// Toggle the `"done"` state of the model.
-		toggleDone: function() {
-		    this.model.toggle();
-		},
-
+        
 		// Remove this view from the DOM.
 		remove: function() {
-		    $(this.el).remove();
+            $(this.el).remove();
 		},
 
 		// Remove the item, destroy the model.
 		clear: function() {
-		    this.model.destroy();
+            if (confirm('Do you really want to remove '+this.model.get('title')+'?')){
+		        this.model.destroy();
+            }
 		}
 
 	});
@@ -144,7 +140,6 @@ $(function(){
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
 		    "click #create-entry button":  "createOnClick",
-		    "click .todo-clear a": "clearCompleted"
 		},
 
 		// At initialization we bind to the relevant events on the `Entries`
@@ -200,12 +195,6 @@ $(function(){
 		    this.$('#description').val('');
 		    this.$('#start_date').val('');
             this.$('#end_date').val('');
-		},
-
-		// Clear all done entr items, destroying their models.
-		clearCompleted: function() {
-		    _.each(Entries.done(), function(entry){ entry.destroy(); });
-		    return false;
 		},
 
 		// Lazily show the tooltip that tells you to press `enter` to save

@@ -117,14 +117,14 @@
 
 <!-- Templates -->	  
 <script type="text/template" id="item-template">
-  <div class="entry <%= done ? 'done' : '' %>">
+  <div class="entry">
     <div class="display">
+        <span class="entry-destroy"></span>
         <h3><div class="entry-title"></div></h3>
         <div>
             <span class="entry-start_date"></span> to <span class="entry-end_date"></span>
         </div>
         <div class="entry-description"></div>
-        <span class="entry-destroy"></span>
     </div>
   </div>
 </script>
@@ -132,7 +132,6 @@
 <script type="text/template" id="stats-template">
   <% if (total) { %>
   <span class="entry-count">
-    <span class="number"><%= total %></span>
     You have <span class="word"><%= total %></span> entries.
   </span>
   <% } %>
